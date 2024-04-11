@@ -13,7 +13,7 @@ huggingface_token = os.getenv("GEMMA_TOKEN")
 def app():
 
     # Load Gemma model
-    gemma = pipeline("text-generation", model="google/gemma-2b", auth_token=huggingface_token)
+    gemma = pipeline("text-generation", model="google/gemma-2b", token=huggingface_token)
 
 
     # Initialize chat history
