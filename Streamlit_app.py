@@ -9,12 +9,14 @@ huggingface_token = os.getenv("GEMMA_TOKEN")
 
 # Define function to load Gemma model
 @st.cache(allow_output_mutation=True)
+def load_gemma():
+    return pipeline("text-generation", model="google/gemma-2b", token=huggingface_token)
+    
 
 def app():
 
     # Load Gemma model
-    gemma = pipeline("text-generation", model="google/gemma-2b", token=huggingface_token)
-
+    gemma = load_gemma()
 
     # Initialize chat history
     chat_history = []
