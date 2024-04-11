@@ -1,6 +1,6 @@
 import streamlit as st
 import streamlit as st
-from transformers import pipeline
+from transformers.pipelines import pipeline
 import os
 
 # Replace with your own Hugging Face access token (get one from https://huggingface.co/docs/hub/en/security-tokens)
@@ -9,14 +9,12 @@ huggingface_token = os.getenv("GEMMA_TOKEN")
 
 # Define function to load Gemma model
 @st.cache(allow_output_mutation=True)
-def load_gemma():
-    return pipeline("text-davinci-003", model="google/gemmia", task="dialogue", device=0,  # Adjust device for GPU usage (if available)
-                    auth_token=huggingface_token)
 
 def app():
 
     # Load Gemma model
-    gemma = load_gemma()
+    gemma = pipeline("text-generation", model="google/gemma-2b", auth_token=huggingface_token)
+
 
     # Initialize chat history
     chat_history = []
