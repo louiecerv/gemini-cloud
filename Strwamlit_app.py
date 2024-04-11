@@ -1,8 +1,7 @@
 import streamlit as st
+from gemma import Gemma
 
 def app():
-
-from gemma import Gemma
 
   # Load the pre-trained model
   model = Gemma.load("gemma-large")
