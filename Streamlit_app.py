@@ -3,7 +3,8 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 import vertexai.preview.generative_models as generative_models
 import streamlit as st
-import streamlit as st import cv2
+import streamlit as st 
+import cv2
 
 generation_config = {
     "max_output_tokens": 2048,
