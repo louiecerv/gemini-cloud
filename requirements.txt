@@ -1,2 +1,5 @@
 streamlit
 keras-nlp
+keras
+google-cloud-aiplatform
+opencv-python

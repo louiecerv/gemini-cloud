@@ -1,37 +1,66 @@
+import base64
+import vertexai
+from vertexai.generative_models import GenerativeModel, Part
+import vertexai.preview.generative_models as generative_models
 import streamlit as st
-import os
-import keras
-import keras_nlp
+python import streamlit as st import cv2
 
-KAGGLE_USERNAME = os.getenv('KAGGLE_USERNAME')
-KAGGLE_KEY = os.getenv('KAGGLE_KEY')
-os.environ["KERAS_BACKEND"] = "jax"  # Or "tensorflow" or "torch".
-os.environ["XLA_PYTHON_CLIENT_MEM_FRACTION"] = "0.9"
+generation_config = {
+    "max_output_tokens": 2048,
+    "temperature": 0.9,
+    "top_p": 1,
+}
+
+safety_settings = {
+    generative_models.HarmCategory.HARM_CATEGORY_HATE_SPEECH: generative_models.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    generative_models.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: generative_models.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    generative_models.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: generative_models.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    generative_models.HarmCategory.HARM_CATEGORY_HARASSMENT: generative_models.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+}
 
 def app():
-    gemma_lm = keras_nlp.models.GemmaCausalLM.from_preset("gemma_2b_en")
+    image = cv2.imread('wvsu_logo.png')
+    resized_image = cv2.resize(image, (200, 200))
 
-    gemma_lm.summary()
+    vertexai.init(project="learn-vertex-ai-417510", location="asia-southeast1")
+    model = GenerativeModel(
+    "gemini-1.0-pro-001",
+    )
+
+    chat = model.start_chat()
 
     # Initialize chat history
     chat_history = []
-
-    st.title("Chat with Gemma")
+    st.image(resized_image, caption='')
+    
+    st.title("A Teaching Co-pilot based on Google Gemini")
+    text = """Prof. Louie F. Cervantes, M. Eng. (Information Engineering) \n
+    CCS 229 - Intelligent Systems
+    Department of Computer Science
+    College of Information and Communications Technology
+    West Visayas State University"""
+    st.text(text)
 
     # Text input for user message
-    user_input = st.text_input("You:")
+    user_input = st.text_area("Your prompt:")
 
     # Button to submit message
     if st.button("Send"):
-
         # Add user message to chat history
         chat_history.append({"speaker": "User", "message": user_input})
 
         # Generate response from Gemma
-        bot_response = gemma_lm.generate(user_input, max_length=2048)
+        bot_response = chat.send_message(user_input,
+            generation_config=generation_config,
+            safety_settings=safety_settings
+        )
+
+        # Access the content section within the candidates dictionary
+        bot_response = bot_response.text
+
 
         # Add bot response to chat history
-        chat_history.append({"speaker": "Gemma", "message": bot_response})
+        chat_history.append({"speaker": "Gemini", "message": bot_response})
 
     # Display chat history
     for message in chat_history:
