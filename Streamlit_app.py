@@ -3,7 +3,7 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 import vertexai.preview.generative_models as generative_models
 import streamlit as st
-python import streamlit as st import cv2
+import streamlit as st import cv2
 
 generation_config = {
     "max_output_tokens": 2048,
@@ -32,7 +32,7 @@ def app():
     # Initialize chat history
     chat_history = []
     st.image(resized_image, caption='')
-    
+
     st.title("A Teaching Co-pilot based on Google Gemini")
     text = """Prof. Louie F. Cervantes, M. Eng. (Information Engineering) \n
     CCS 229 - Intelligent Systems
