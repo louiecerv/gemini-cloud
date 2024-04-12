@@ -21,7 +21,7 @@ safety_settings = {
 
 def app():
     image = cv2.imread('wvsu_logo.png')
-    resized_image = cv2.resize(image, (200, 200))
+    resized_image = cv2.resize(image, (120, 120))
     resized_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
 
     vertexai.init(project="learn-vertex-ai-417510", location="asia-southeast1")
@@ -33,9 +33,18 @@ def app():
 
     # Initialize chat history
     chat_history = []
-    st.image(resized_image, caption='')
 
-    st.title("A Teaching Co-pilot based on Google Gemini")
+    # Create two columns with equal width
+    col1, col2 = st.columns([1, 4])
+
+    # Display the image in the left column
+    with col1:
+        st.image(resized_image)  # Adjust image size to fit column
+
+    # Display the title in the right column
+    with col2:
+        st.title("A Teaching Co-pilot based on Google Gemini")
+
     text = """Prof. Louie F. Cervantes, M. Eng. (Information Engineering) \n
     CCS 229 - Intelligent Systems
     Department of Computer Science
