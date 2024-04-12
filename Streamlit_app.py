@@ -29,6 +29,7 @@ def app():
     "gemini-1.0-pro-001",
     )
 
+
     chat = model.start_chat()
 
     # Initialize chat history
