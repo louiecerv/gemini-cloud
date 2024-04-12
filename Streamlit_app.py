@@ -22,6 +22,7 @@ safety_settings = {
 def app():
     image = cv2.imread('wvsu_logo.png')
     resized_image = cv2.resize(image, (200, 200))
+    resized_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
 
     vertexai.init(project="learn-vertex-ai-417510", location="asia-southeast1")
     model = GenerativeModel(
