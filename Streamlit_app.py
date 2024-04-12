@@ -1,22 +1,17 @@
 import streamlit as st
-import streamlit as st
-from transformers.pipelines import pipeline
 import os
+import keras
+import keras_nlp
 
-# Replace with your own Hugging Face access token (get one from https://huggingface.co/docs/hub/en/security-tokens)
-#huggingface_token = st.secrets["HUGGINGFACE_TOKEN"]
-huggingface_token = os.getenv("GEMMA_TOKEN")
-
-# Define function to load Gemma model
-@st.cache(allow_output_mutation=True)
-def load_gemma():
-    return pipeline("text-generation", model="google/gemma-2b", token=huggingface_token)
-    
+KAGGLE_USERNAME = os.getenv('KAGGLE_USERNAME')
+KAGGLE_KEY = os.getenv('KAGGLE_KEY')
+os.environ["KERAS_BACKEND"] = "jax"  # Or "tensorflow" or "torch".
+os.environ["XLA_PYTHON_CLIENT_MEM_FRACTION"] = "0.9"
 
 def app():
+    gemma_lm = keras_nlp.models.GemmaCausalLM.from_preset("gemma_2b_en")
 
-    # Load Gemma model
-    gemma = load_gemma()
+    gemma_lm.summary()
 
     # Initialize chat history
     chat_history = []
@@ -28,12 +23,12 @@ def app():
 
     # Button to submit message
     if st.button("Send"):
+
         # Add user message to chat history
         chat_history.append({"speaker": "User", "message": user_input})
 
         # Generate response from Gemma
-        bot_response = gemma(prompt=user_input, max_length=1000,  # Adjust max_length for longer responses (be mindful of usage limits)
-                            do_sample=True, top_k=50, top_p=0.9)["generated_text"][0]
+        bot_response = gemma_lm.generate(user_input, max_length=2048)
 
         # Add bot response to chat history
         chat_history.append({"speaker": "Gemma", "message": bot_response})
