@@ -26,7 +26,8 @@ def app():
 
     vertexai.init(project="learn-vertex-ai-417510", location="asia-southeast1")
     model = GenerativeModel(
-    "gemini-1.0-pro-001",
+    #"gemini-1.0-pro-001",
+    "gemini-1.5-pro-preview-0409",
     )
 
 
