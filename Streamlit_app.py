@@ -64,6 +64,7 @@ def app():
     # Text input for user message
     user_input = st.text_area("Your prompt:")
 
+
     # Button to submit message
     if st.button("Get Response"):
         # Add user message to chat history
