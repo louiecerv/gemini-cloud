@@ -36,7 +36,7 @@ def app():
     # Initialize chat history
     chat_history = []
 
-    # Create two columns with equal width
+    # Create two columns
     col1, col2 = st.columns([1, 4])
 
     # Display the image in the left column
@@ -58,7 +58,7 @@ def app():
     user_input = st.text_area("Your prompt:")
 
     # Button to submit message
-    if st.button("Send"):
+    if st.button("Get Response"):
         # Add user message to chat history
         chat_history.append({"speaker": "User", "message": user_input})
 
@@ -71,13 +71,12 @@ def app():
         # Access the content section within the candidates dictionary
         bot_response = bot_response.text
 
-
         # Add bot response to chat history
         chat_history.append({"speaker": "Gemini", "message": bot_response})
 
-    # Display chat history
-    for message in chat_history:
-        st.write(f"{message['speaker']}: {message['message']}")
+        # Display chat history
+        for message in chat_history:
+            st.write(f"{message['speaker']}: {message['message']}")
 
 #run the app
 if __name__ == "__main__":
