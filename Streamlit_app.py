@@ -3,7 +3,6 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 import vertexai.preview.generative_models as generative_models
 import streamlit as st
-import cv2
 import google.auth
 import os
 
@@ -31,9 +30,6 @@ def app():
     # Authenticate using the key file
     credentials, project_id = google.auth.default()
 
-    image = cv2.imread('wvsu_logo.png')
-    resized_image = cv2.resize(image, (120, 120))
-    resized_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
 
     vertexai.init(project="learn-vertex-ai-417510", location="asia-southeast1")
     model = GenerativeModel(
@@ -52,7 +48,7 @@ def app():
 
     # Display the image in the left column
     with col1:
-        st.image(resized_image)  # Adjust image size to fit column
+        st.image("wvsu-logo.jpg")
 
     # Display the title in the right column
     with col2:
