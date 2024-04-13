@@ -3,8 +3,9 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 import vertexai.preview.generative_models as generative_models
 import streamlit as st
-import streamlit as st 
 import cv2
+import google.auth
+import os
 
 generation_config = {
     "max_output_tokens": 2048,
@@ -20,6 +21,15 @@ safety_settings = {
 }
 
 def app():
+
+    key_path = st.secrets["google_key_path"]
+
+    # Set the environment variable to point to the key file
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
+
+    # Authenticate using the key file
+    credentials, project_id = google.auth.default()
+
     image = cv2.imread('wvsu_logo.png')
     resized_image = cv2.resize(image, (120, 120))
     resized_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
